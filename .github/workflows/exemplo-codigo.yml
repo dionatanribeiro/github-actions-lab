@@ -21,6 +21,11 @@ jobs:
       - name: "Obter código"
         uses: actions/checkout@v4
       
+      - name: "Instalar dependências"
+        run: |
+          echo "Instalando dependências com Node.js ${{ env.NODE_VERSION }}"
+          npm ci
+
       - name: Executar testes
         run: |
           echo "Executando testes com Node.js ${{ env.NODE_VERSION }}"
