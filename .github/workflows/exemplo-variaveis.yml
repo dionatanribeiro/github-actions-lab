@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 20.5.0
+  NODE_VERSION: 24.19.0
   ENV: prod
 
 jobs:
