@@ -46,7 +46,7 @@ jobs:
       - name: Variáveis e Contexto
         run: |
           echo "====== VARIÁVEIS E CONTEXTO ======"
-          echo " Variáveis env: ${ env.NODE_VERSION }"
+          echo " Variáveis env: ${{ env.NODE_VERSION }}"
           echo "1. Variáveis de ambiente definidas no workflow"
           echo "2. Contexto do GitHub Actions (github, env, secrets, etc.)"
           echo "3. Acesso a informações do repositório e do evento que disparou o workflow"
