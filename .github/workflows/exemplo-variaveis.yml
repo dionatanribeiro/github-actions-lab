@@ -1,0 +1,20 @@
+env:
+  NODE_VERSION: 20.5.0
+  ENV: prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_MODE: test
+    steps:
+      - name: "Exemplo listagem de variaveis"
+        env:
+          LOCAL_FLAG: enabled
+        run: |
+          echo "${{ env.APP_MODE}} do ambiente de ${{ env.ENV }}/ $LOCAL_FLAG"
+          echo "====== EXEMPLO DE VARIÁVEIS DE AMBIENTE ======"
+          echo " Variável de ambiente global (env): ${{ env.NODE_VERSION }}"
+          echo " Variável de ambiente global (env): ${{ env.ENV }}"
+          echo " Variável de ambiente do job (env): ${{ env.APP_MODE }}"
+          echo " Variável de ambiente do step (env): ${{ env.LOCAL_FLAG }}"

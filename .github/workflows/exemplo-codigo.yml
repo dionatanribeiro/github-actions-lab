@@ -1,0 +1,20 @@
+env:
+  NODE_VERSION: 20.5.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_MODE: test
+    steps:
+      - name: "Obter código"
+        uses: actions/checkout@v4
+      
+      - name: Executar testes
+        run: |
+          echo "Executando testes com Node.js ${{ env.NODE_VERSION }}"
+          npm test
+
+      - name: Condicional
+        if: github.event_name == 'pull_request'
+        run: echo "Rodando um PR"
