@@ -46,11 +46,7 @@ jobs:
       - name: Variáveis e Contexto
         run: |
           echo "====== VARIÁVEIS E CONTEXTO ======"
+          echo " Variáveis env: ${ env.NODE_VERSION }"
           echo "1. Variáveis de ambiente definidas no workflow"
           echo "2. Contexto do GitHub Actions (github, env, secrets, etc.)"
           echo "3. Acesso a informações do repositório e do evento que disparou o workflow"
-
-      - name: "Exibe versão do Node.js"
-        run: |
-          echo "====== VERSÃO DO NODE.JS ======"
-          echo "${ env.NODE_VERSION }"
