@@ -1,0 +1,56 @@
+name: "Estrutura de diretórios e arquivos do projeto"
+
+on:
+  push:
+    branches:
+      - main # quando houver alguma ação nesta branch ele irá executar este workflow
+  workflow_dispatch: # permite execução manual pela interface
+
+env:
+  NODE_VERSION: 20.5.0
+
+jobs:
+  demonstrar-estrutura:
+    name: "Demonstrar estrutura básica"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout do código"
+        users: actions/checkout@v4
+
+      - name: "Mostrar estrutura .github/workflows"
+        run: |
+          echo "====== ESTRUTURA DE DIRETÓRIOS E ARQUIVOS DO PROJETO ======"
+          ls -la .github/workflows
+          echo ""
+          echo " Total de workflows: $(ls -1 .github/workflows | wc -l)"
+
+      - name: "Elementos obrigatórios do workflow"
+        run: |
+          echo "====== ELEMENTOS OBRIGATÓRIOS DO WORKFLOW ======"
+          echo "1. name: Nome do workflow"
+          echo "2. on: Eventos que disparam o workflow"
+          echo "3. jobs: Conjunto de trabalhos a serem executados"
+          echo "4. runs-on: Ambiente de execução do job"
+          echo "5. steps: Passos a serem executados dentro do job"
+
+      - name: "Elementos opcionais do workflow"
+        run: |
+          echo "====== ELEMENTOS OPCIONAIS DO WORKFLOW ======"
+          echo "1. env: Variáveis de ambiente globais"
+          echo "2. strategy: Estratégia de execução do job"
+          echo "3. needs: Dependências entre jobs"
+          echo "4. if: Condições para execução de jobs ou steps"
+          echo "5. timeout-minutes: Tempo máximo de execução do job"
+        
+      - name: Variáveis e Contexto
+        run: |
+          echo "====== VARIÁVEIS E CONTEXTO ======"
+          echo "1. Variáveis de ambiente definidas no workflow"
+          echo "2. Contexto do GitHub Actions (github, env, secrets, etc.)"
+          echo "3. Acesso a informações do repositório e do evento que disparou o workflow"
+
+      - name: "Exibe versão do Node.js"
+        run: |
+          echo "====== VERSÃO DO NODE.JS ======"
+          echo "${ env.NODE_VERSION }"
