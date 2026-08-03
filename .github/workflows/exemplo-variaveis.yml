@@ -1,3 +1,14 @@
+name: "Exemplo de variáveis de ambiente"
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
 env:
   NODE_VERSION: 20.5.0
   ENV: prod
