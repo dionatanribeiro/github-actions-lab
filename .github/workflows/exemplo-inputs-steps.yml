@@ -4,11 +4,11 @@ on:
   push:
     branches: [ main ]
     paths:
-      - '.github/workflows/exemplo-inputs.yml'
+      - '.github/workflows/exemplo-inputs-steps.yml'
   pull_request:
     branches: [ main ]
     paths:
-      - '.github/workflows/exemplo-inputs.yml'
+      - '.github/workflows/exemplo-inputs-steps.yml'
   workflow_dispatch:
     inputs:
       run_tests:
