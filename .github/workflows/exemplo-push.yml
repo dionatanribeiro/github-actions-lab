@@ -1,0 +1,32 @@
+name: Push Trigger workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - "src/**"
+      - "README.md"
+
+jobs:
+  push-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+      
+      - name: Informações do Push
+        run: |
+          echo "Workflow acionado por Push"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Autor do commit: ${{ github.actor }}"
+          echo "Repositório: ${{ github.repository }}"
+
+      - name: Listar arquivos modificados
+        run: |
+          echo "Arquivos modificados no push:"
+          git diff-tree --no-commit-id --name-only -r ${{ github.sha }}
+
