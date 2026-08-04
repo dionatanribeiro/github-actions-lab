@@ -29,15 +29,10 @@ jobs:
         env:
           DB_PASS: ${{ secrets.DB_PASS }}
         run: |
-          echo "Usando senha do banco de dados: DB_PASS=${DB_PASS}"
-
-      - name: "Exemplo de uso de Environment"
-        run: |
-          echo "====== USO DE ENVIRONMENT ======"
-          echo "Este job está sendo executado no Environment: ${{ github.environment }}"
+          echo "Demonstra uso de secret mascarada: DB_PASS=${DB_PASS}"
 
       - name: "Condicional usando vars somente em production"
-        if: ${{ github.environment == 'production' }}
+        if: ${{ vars.ENVIRONMENT == 'production' }}
         run: |
           echo "====== CONDICIONAL PARA PRODUCTION ======"
           echo "Este passo só será executado se o Environment for 'production'."
