@@ -1,12 +1,17 @@
 name: Exemplo de fluxo para código"
 
 on:
-  push:
+  push: # O evento push é acionado sempre que há commits enviados para o repositório.
     branches: [ develop, main]
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+    paths: 
+      - 'src/**'
+      - '!src/tests/**'
+  pull_request: # Acionado quando pull requests são abertos, atualizados ou fechados.
+    types: [opened, synchronize, closed]
+    branches: [ main ]
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
 
 env:
   NODE_VERSION: 24.19.0
