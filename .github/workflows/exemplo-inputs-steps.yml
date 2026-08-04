@@ -1,0 +1,117 @@
+name: Steps condicionais com Inputs
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/exemplo-inputs.yml'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/exemplo-inputs.yml'
+  workflow_dispatch:
+    inputs:
+      run_tests:
+        description: 'Executar testes?'
+        required: true
+        default: true
+        type: boolean
+      deploy_environment:
+        description: 'Ambiente de deploy'
+        required: false
+        default: 'none'
+        type: choice
+        options:
+          - none
+          - development
+          - homolog
+          - production
+
+jobs:
+  conditional-steps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Step sempre executado
+        run: |
+          echo "Este step sempre será executado, independentemente das condições."
+          echo "Evento: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+      - name: Step apenas em push
+        if: github.event_name == 'push'
+        run: |
+          echo "Este step será executado apenas em eventos de push."
+          echo "Commit SHA: ${{ github.sha }}"
+
+      - name: Step apenas em PR
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "Este step será executado apenas em eventos de pull request."
+          echo "Base branch: ${{ github.base_ref }}"
+          echo "PR #${{ github.event.number }}"
+
+      - name: Step apenas na branch main
+        if: github.ref_name == 'main'
+        run: |
+          echo "Este step será executado apenas na branch main."
+          echo "Branch atual: ${{ github.ref_name }}"
+
+      - name: Executar testes (input manual)
+        if: ${{ github.event.inputs.run_tests == 'true' || github.event_name != 'workflow_dispatch' }}
+        run: |
+          echo "Executando testes..."
+          npm test
+          echo "Testes concluídos"
+
+      - name: Deploy para Development
+        if: ${{ github.event.inputs.deploy_environment == 'development' }}
+        run: |
+          echo "Realizando deploy para o ambiente de Development..."
+          # Comandos de deploy para Development
+          sleep 1
+          echo "Deploy para Development concluído."
+
+      - name: Deploy para Homolog
+        if: ${{ github.event.inputs.deploy_environment == 'homolog' }}
+        run: |
+          echo "Realizando deploy para o ambiente de Homolog..."
+          # Comandos de deploy para Homolog
+          sleep 2
+          echo "Deploy para Homolog concluído."
+
+      - name: Deploy para Production
+        if: ${{ github.event.inputs.deploy_environment == 'production' }}
+        run: |
+          echo "Realizando deploy para o ambiente de Production..."
+          # Comandos de deploy para Production
+          sleep 3
+          echo "Deploy para Production concluído."
+
+      - name: Step com múltiplas condições
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && success() }}
+        run: |
+          echo "Push na main com sucesso nos steps anteriores"
+
+      - name: Step que executa mesmo com falha
+        if: ${{ always() }}
+        run: |
+          echo "Este step será executado mesmo que algum step anterior tenha falhado."
+          echo "Status do job até agora: ${{ job.status }}"
+
+      - name: Step apenas se houver falha
+        if: ${{ failure() }}
+        run: |
+          echo "Este step será executado apenas se algum step anterior falhar."
+          echo "Status do job até agora: ${{ job.status }}"
+
+      - name: Cleanup
+        if: ${{ always() }}
+        run: |
+          echo "Limpeza final sempre executada, independentemente do resultado dos steps anteriores."
+          echo "Status final do job: ${{ job.status }}"
