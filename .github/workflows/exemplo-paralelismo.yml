@@ -1,5 +1,12 @@
 name: Jobs Paralelo vs Sequencial
-on: [push]
+
+# on: [push]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/exemplo-paralelismo.yml'
 
 jobs:
   lint:

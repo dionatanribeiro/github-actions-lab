@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '.github/workflows/exemplo-paralelismo-2.yml'
 
 jobs:
   # Job 1: Análise do Código
