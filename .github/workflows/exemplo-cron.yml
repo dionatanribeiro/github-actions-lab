@@ -1,5 +1,7 @@
 name: "Exemplo utilizando Cron"
 
+# O github actions pode demorar para começar a executar o scheduler, em alguns casos acima de 1 hora após a criação.
+
 on:
   schedule:
     # Executa o workflow a cada 1 hora
