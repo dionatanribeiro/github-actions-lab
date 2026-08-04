@@ -2,8 +2,8 @@ name: "Exemplo utilizando Cron"
 
 on:
   schedule:
-    # Executa o workflow todos os dias às 10:55 (UTC)
-    - cron: '25 14 * * *'
+    # Executa o workflow todos os dias às 14:30 (UTC)
+    - cron: '30 14 * * *'
   workflow_dispatch: # permite execução manual pela interface
 
 jobs:
