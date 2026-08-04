@@ -1,7 +1,7 @@
 name: "Exemplo com Environments do GitHub"
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Ao deixar desta forma, o workflow só poderá ser executado manualmente, via botão "Run workflow" na aba Actions do repositório.
 
 env:
   APP_NAME: demo-app            # escopo do workflow

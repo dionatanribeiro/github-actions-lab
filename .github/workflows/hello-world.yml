@@ -3,9 +3,12 @@ name: Hello Github Actions
 on:
   push:
     branches: [ main ]
+    paths:
+      - '.github/workflows/hello-world.yml' # Quando houver alguma ação neste arquivo ele irá executar este workflow. Comentar para executar sempre que houver push na branch main
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
+    paths:
+      - '.github/workflows/hello-world.yml' # Quando houver alguma ação neste arquivo ele irá executar este workflow. Comentar para executar sempre que houver pull request na branch main
 
 jobs:
   hello-job:

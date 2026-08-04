@@ -1,0 +1,40 @@
+name: Contextos e Expressões
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [18]
+    steps:
+      - name: Exibir metadados do evento
+        run: |
+          echo "Evento: ${{ github.event_name }}"
+          echo "Branch/Ref: ${{ github.ref }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Runner OS: ${{ runner.os }}"
+
+      - name: Definir variável de ambiente a partir de vars
+        env:
+          APP_ENV: ${{ vars.APP_ENV }}
+        run: |
+          echo "Ambiente lógico: ${APP_ENV:-dev}"
+
+      - id: prepara
+        name: Preparar saída de step
+        run: |
+          echo "value=ok" >> "$GITHUB_OUTPUT"
+
+      - name: Usar saída do step anterior
+        if: ${{ steps.prepara.outputs.value == 'ok' }}
+        run: |
+          echo "Step anterior retornou 'ok' — executando ação condicionada"
+
+      - name: Depurar matrix em JSON (sem dados sensíveis)
+        run: |
+          echo "Matrix: ${{ toJSON(matrix) }}"
