@@ -1,0 +1,92 @@
+name: Jobs Paralelos
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Job 1: Análise do Código
+  code-analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
+      - name: Análise de Sintaxe
+        run: |
+          echo "Analisando a sintaxe do código..."
+          sleep 3
+          echo "Análise de sintaxe concluída com sucesso!"
+
+      - name: Verificar padrões de código
+        run: |
+          echo "Verificando padrões de código..."
+          sleep 3
+          echo "Verificação de padrões concluída com sucesso!"
+
+      - name: Upload relatório de análise
+        run: |
+          echo "Fazendo upload do relatório de análise..."
+          echo "Relatório de análise gerado em $(date)" > analysis-report.txt
+          echo "Relatório salvo"
+
+  # Job 2: Testes Unitários (executa em paralelo com code-analysis)
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
+      - name: Configurar ambiente de testes
+        run: |
+          echo "Configurando ambiente de testes..."
+          sleep 2
+          echo "Ambiente de testes configurado com sucesso!"
+
+      - name: Executar Testes Unitários
+        run: |
+          echo "Executando testes unitários..."
+          sleep 5
+          echo "Todos os testes unitários passaram (18/15)"
+
+      - name: Gerar relatório de cobertura
+        run: |
+          echo "Gerando relatório de cobertura de testes..."
+          sleep 2
+          echo "Cobertura: 85%" > coverage-report.txt
+
+  # Job 3: Build do Projeto (executa em paralelo)
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+      
+      - name: Configurar ambiente de build
+        run: |
+          echo "Configurando ambiente de build..."
+          sleep 2
+          echo "Ambiente de build configurado com sucesso!"
+      
+      - name: Compilar aplicação
+        run: |
+          echo "Compilando aplicação..."
+          sleep 5
+          echo "Aplicação compilada com sucesso!"
+
+      - name: Gerar artefatos de build
+        run: |
+          echo "Gerando artefatos de build..."
+          mkdir -p build
+          echo "Artefatos de build gerados em $(date)" > build/app.jar
+          echo "Geração de artefatos concluída"
+
+      - name: Upload artefatos de build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: build/
