@@ -13,11 +13,6 @@ jobs:
       - name: "Checkout do código"
         uses: actions/checkout@v4
       
-      - name: "Exibir informações do Environment"
-        run: |
-          echo "Nome do Environment: ${{ github.event.workflow_run.environment.name }}"
-          echo "URL do Environment: ${{ github.event.workflow_run.environment.url }}"
-      
       - name: "Exibir variaveis de ambiente do Environment"
         run: |
           echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
