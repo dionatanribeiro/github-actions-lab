@@ -1,4 +1,4 @@
-name: "Estrutura exemplo trabalhando com Environments do GitHub"
+name: "Exemplo com Environments do GitHub"
 
 on:
   workflow_dispatch:
