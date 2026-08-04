@@ -14,16 +14,16 @@ on:
       - ".github/workflows/exemplo-estrutura.yml" # quando houver alguma ação neste arquivo ele irá executar este workflow
   workflow_dispatch: # permite execução manual pela interface
 
-env:
+env: # Definição de variáveis globais para utilização em qualquer job e/ou step do workflow
   NODE_VERSION: 24.19.0
 
 jobs:
   demonstrar-estrutura:
     name: "Demonstrar estrutura básica"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Runner utilizado para execução do job
 
     steps:
-      - name: "Checkout do código"
+      - name: "Checkout do código"  # Todo workflow precisa do código do repositório, por isso é utilizado o checkout para trazer o código do repositório para o runner
         uses: actions/checkout@v4
 
       - name: "Mostrar estrutura .github/workflows"
@@ -31,16 +31,26 @@ jobs:
           echo "====== ESTRUTURA DE DIRETÓRIOS E ARQUIVOS DO PROJETO ======"
           ls -la .github/workflows
           echo ""
-          echo " Total de workflows: $(ls -1 .github/workflows | wc -l)"
+          echo " Total de workflows: $(ls -1 .github/workflows/*.y*ml 2>/dev/null | wc -l)"
 
       - name: "Elementos obrigatórios do workflow"
         run: |
           echo "====== ELEMENTOS OBRIGATÓRIOS DO WORKFLOW ======"
           echo "1. name: Nome do workflow"
-          echo "2. on: Eventos que disparam o workflow"
-          echo "3. jobs: Conjunto de trabalhos a serem executados"
-          echo "4. runs-on: Ambiente de execução do job"
-          echo "5. steps: Passos a serem executados dentro do job"
+          echo "2. on: Eventos de trigger (push, workflow_dispatch, etc.)"
+          echo "3. jobs: Conjunto de tarefas a serem executados"
+
+      - name: Variáveis e Contexto
+        run: |
+          echo "====== DEFINIÇÃO ======"
+          echo "1. Variáveis de ambiente definidas no workflow"
+          echo "2. Contexto do GitHub Actions (github, env, secrets, etc.)"
+          echo "3. Acesso a informações do repositório e do evento que disparou o workflow"
+          echo "====== VARIÁVEIS E CONTEXTO ======"
+          echo "Variáveis env: ${{ env.NODE_VERSION }}"
+          echo "Repositório: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Actor: ${{ github.actor }}"
 
       - name: "Elementos opcionais do workflow"
         run: |
@@ -50,11 +60,3 @@ jobs:
           echo "3. needs: Dependências entre jobs"
           echo "4. if: Condições para execução de jobs ou steps"
           echo "5. timeout-minutes: Tempo máximo de execução do job"
-        
-      - name: Variáveis e Contexto
-        run: |
-          echo "====== VARIÁVEIS E CONTEXTO ======"
-          echo " Variáveis env: ${{ env.NODE_VERSION }}"
-          echo "1. Variáveis de ambiente definidas no workflow"
-          echo "2. Contexto do GitHub Actions (github, env, secrets, etc.)"
-          echo "3. Acesso a informações do repositório e do evento que disparou o workflow"
