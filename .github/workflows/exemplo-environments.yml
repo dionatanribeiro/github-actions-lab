@@ -1,0 +1,43 @@
+name: "Estrutura exemplo trabalhando com Environments do GitHub"
+
+on:
+  workflow_dispatch:
+
+env:
+  APP_NAME: demo-app            # escopo do workflow
+  LOG_LEVEL: info
+
+jobs:
+  demonstrar-environments:
+    name: "Demonstrar uso de Environments"
+    runs-on: ubuntu-latest
+    environment: production # ativa vars e secrets do ambiente "production" informado no repositório do GitHub
+    env:
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }} # usa vars do ambiente/repo/org conforme o environment
+
+    steps:
+      - name: "Checkout do código"
+        uses: actions/checkout@v4
+
+      - name: "Mostrar Environments disponíveis"
+        run: |
+          echo "====== VARIAVEIS DO ENVIRONMENT ======"
+          echo "Este é o ambiente de ${ENVIRONMENT}. "
+          echo "DEBUG_MODE: ${DEBUG_MODE}"
+
+      - name: Mapear segredo para o shell
+        env:
+          DB_PASS: ${{ secrets.DB_PASS }}
+        run: |
+          echo "Usando senha do banco de dados: DB_PASS=${DB_PASS}"
+
+      - name: "Exemplo de uso de Environment"
+        run: |
+          echo "====== USO DE ENVIRONMENT ======"
+          echo "Este job está sendo executado no Environment: ${{ github.environment }}"
+
+      - name: "Condicional usando vars somente em production"
+        if: ${{ github.environment == 'production' }}
+        run: |
+          echo "====== CONDICIONAL PARA PRODUCTION ======"
+          echo "Este passo só será executado se o Environment for 'production'."
