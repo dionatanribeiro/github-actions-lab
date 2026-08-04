@@ -1,0 +1,64 @@
+name: Exemplo com Matrix
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/exemplo-matrix.yml'
+
+jobs:
+  # Job com matrix para múltiplos ambientes
+  test-matrix:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false # Não para se um job falhar
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16, 18, 20]
+        include:
+          # Configurações específicas
+          - os: ubuntu-latest
+            node-version: 20
+            experimental: true
+        exclude:
+          # Exclui combinações específicas
+          - os: windows-latest
+            node-version: 16
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Informações do Matrix
+        run: |
+          echo "Sistema Operacional: ${{ matrix.os }}"
+          echo "Versão do Node.js: ${{ matrix.node-version }}"
+          echo "Experimental: ${{ matrix.experimental }}"
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Verificar versões
+        run: |
+          echo "Versão do Node.js: $(node -v)"
+          echo "Versão do npm: $(npm -v)"
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: |
+          echo "Executando testes no ambiente: ${{ matrix.os }} com Node.js ${{ matrix.node-version }}"
+          npm test
+          echo "Testes concluídos"
+
+      - name: Teste experimental
+        if: matrix.experimental == true
+        run: |
+          echo "Executando teste experimental"
+          sleep 1
+          echo "Teste experimental concluído"

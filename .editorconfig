@@ -1,4 +1,14 @@
-[*.yml]
+# EditorConfig root file
+root = true
 
-tab_width = 2
+# Default rules for all files
+[*]
 end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Specific rules for YAML files
+[*.{yml,yaml}]
+indent_style = space
+indent_size = 2
