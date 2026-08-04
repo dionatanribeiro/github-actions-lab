@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "====== VARIAVEIS DO ENVIRONMENT ======"
           echo "Este é o ambiente de ${ENVIRONMENT}. "
-          echo "DEBUG_MODE: ${ vars.DEBUG_MODE}"
+          echo "DEBUG_MODE: ${{ vars.DEBUG_MODE }}"
 
       - name: Mapear segredo para o shell
         env:
