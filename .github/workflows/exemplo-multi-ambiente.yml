@@ -65,6 +65,7 @@ jobs:
       - name: Simular testes de integração
         run: |
           echo "Executando testes em ${{ vars.ENVIRONMENT }}"
+          npm ci
           npm test
           echo "Testes aprovados em HML"
 
@@ -92,6 +93,7 @@ jobs:
         run: |
           echo "Realizando deploy em ${{ vars.ENVIRONMENT }}"
           echo "URL pública: ${{ vars.API_URL }}"
+          npm ci
           npm run build
           echo "Deploy em PRODUÇÃO concluído com sucesso!"
 
