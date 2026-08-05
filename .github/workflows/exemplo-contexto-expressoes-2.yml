@@ -9,6 +9,7 @@ on:
       - stage
       - develop
       - 'feature/**'
+      - 'hotfix/**'
 
 jobs:
   # Job 1: Demonstra contextos github e runner
