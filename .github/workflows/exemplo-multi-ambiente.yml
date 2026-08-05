@@ -59,6 +59,9 @@ jobs:
           echo "Debug Mode: ${{ vars.DEBUG_MODE }}"
           echo "Max Connections: ${{ vars.MAX_CONNECTIONS }}"
 
+      - name: Checkout código
+        uses: actions/checkout@v4
+
       - name: Simular testes de integração
         run: |
           echo "Executando testes em ${{ vars.ENVIRONMENT }}"
@@ -81,6 +84,9 @@ jobs:
           echo "Região: ${{ vars.DEFAULT_REGION }}"
           echo "Debug Mode: ${{ vars.DEBUG_MODE }}"
           echo "Max Connections: ${{ vars.MAX_CONNECTIONS }}"
+
+      - name: Checkout código
+        uses: actions/checkout@v4
 
       - name: Deploy em produção
         run: |
