@@ -61,7 +61,7 @@ jobs:
       - name: Gerar versão
         id: gerar-versao
         run: |
-          VERSION="1.0.${{ github.run_number }}"
+          VERSION="v1.0.${{ github.run_number }}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Versão gerada: $VERSION"
 
