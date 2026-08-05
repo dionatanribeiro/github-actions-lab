@@ -14,10 +14,6 @@ jobs:
   # Job 1: Demonstra contextos github e runner
   info-contexto:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [20]
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -61,6 +57,7 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      # Step que GERA um output
       - name: Gerar versão
         id: gerar-versao
         run: |
@@ -68,7 +65,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Versão gerada: $VERSION"
 
-      - name: Step que GERA outro output
+      # Step que GERA outro output
+      - name: Definir ambiente baseado no branch
         id: definir-ambiente
         run: |
           if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
@@ -87,8 +85,8 @@ jobs:
       - name: Usar outputs dos steps anteriores
         run: |
           echo "Usando versão: ${{ steps.gerar-versao.outputs.version }}"
-          echo "Usando ambiente: ${{ steps.definir-ambiente.outcome.env_name }}"
-          echo "Tag completa: ${{ steps.definir-ambiente.outcome.env_name }}-${{ steps.gerar-versao.outputs.version }}"
+          echo "Usando ambiente: ${{ steps.definir-ambiente.outputs.env_name }}"
+          echo "Tag completa: ${{ steps.definir-ambiente.outputs.env_name }}-${{ steps.gerar-versao.outputs.version }}"
 
   # Job 3: Demonstra expressões e funções
   expressoes-e-funcoes:
