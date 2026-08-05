@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
+    paths: # Adicionado por finalidade de teste para disparar o workflow apenas quando houver alterações neste arquivo
       - '.github/workflows/exemplo-variaveis.yml'
   workflow_dispatch:
 
