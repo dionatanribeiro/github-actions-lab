@@ -11,7 +11,11 @@ jobs:
   demonstrar-environments:
     name: "Demonstrar uso de Environments"
     runs-on: ubuntu-latest
-    environment: production # ativa vars e secrets do ambiente "production" informado no repositório do GitHub
+    # ativa vars e secrets do ambiente "production" informado no repositório do GitHub
+    # environment: production
+    environment:
+      name: production
+      url: https://app.example.com
     env:
       ENVIRONMENT: ${{ vars.ENVIRONMENT }} # usa vars do ambiente/repo/org conforme o environment
 
@@ -36,3 +40,7 @@ jobs:
         run: |
           echo "====== CONDICIONAL PARA PRODUCTION ======"
           echo "Este passo só será executado se o Environment for 'production'."
+
+      - name: "Finalizar"
+        run: |
+          echo "Deploy concluído com sucesso em branch ${GITHUB_REF_NAME:-branch}"

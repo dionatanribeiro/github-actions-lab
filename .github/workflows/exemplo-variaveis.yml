@@ -1,30 +1,68 @@
-name: "Exemplo de variáveis de ambiente"
+name: Demonstração de variáveis de ambiente
 
 on:
   push:
     branches:
       - main
     paths: # Adicionado por finalidade de teste para disparar o workflow apenas quando houver alterações neste arquivo
-      - '.github/workflows/exemplo-variaveis.yml'
+      - '.github/workflows/exemplo-variaveis-2.yml'
   workflow_dispatch:
 
+# variáveis de ambiente de nível do workflow (global)
 env:
-  NODE_VERSION: 24.19.0
-  ENV: prod
+  WORKFLOW_VAR: "Variável definida no nível do workflow"
+  AMBIENTE: produção
+  VERSAO_APP: 1.0.0
 
 jobs:
-  build:
+  demonstracao-variaveis:
     runs-on: ubuntu-latest
+
+    # Variáveis de ambiente de nível do job
     env:
-      APP_MODE: test
+      JOB_VAR: "Variável definida no nível do job"
+      USUARIO: "devops-user"
+
     steps:
-      - name: "Exemplo listagem de variaveis"
-        env:
-          LOCAL_FLAG: enabled
+      - name: "Exibir variáveis do nível do workflow"
         run: |
-          echo "${{ env.APP_MODE}} do ambiente de ${{ env.ENV }}/ $LOCAL_FLAG"
-          echo "====== EXEMPLO DE VARIÁVEIS DE AMBIENTE ======"
-          echo " Variável de ambiente global (env): ${{ env.NODE_VERSION }}"
-          echo " Variável de ambiente global (env): ${{ env.ENV }}"
-          echo " Variável de ambiente do job (env): ${{ env.APP_MODE }}"
-          echo " Variável de ambiente do step (env): ${{ env.LOCAL_FLAG }}"
+          echo "====== VARIÁVEIS DO WORKFLOW ======"
+          echo " Variável de ambiente global (env): ${{ env.WORKFLOW_VAR }}"
+          echo " Variável de ambiente global (env): ${{ env.AMBIENTE }}"
+          echo " Variável de ambiente global (env): ${{ env.VERSAO_APP }}"
+
+      - name: "Exibir variáveis do nível do job"
+        run: |
+          echo "====== VARIÁVEIS DO JOB ======"
+          echo " Variável de ambiente do job (env): ${{ env.JOB_VAR }}"
+          echo " Variável de ambiente do job (env): ${{ env.USUARIO }}"
+
+      - name: "Exibir variáveis do nível do step"
+        env:
+          STEP_VAR: "Variável definida no nível do step"
+          MENSAGEM: "Olá, este é um exemplo de variável de ambiente no nível do step"
+        run: |
+          echo "====== VARIÁVEIS DO STEP ======"
+          echo " Variável de ambiente do step (env): ${{ env.STEP_VAR }}"
+          echo " Variável de ambiente do step (env): ${{ env.MENSAGEM }}"
+
+      - name: Combinar variáveis de diferentes níveis
+        env:
+          STEP_ESPECIFICO: "step-value"
+        run: |
+          echo "====== COMBINANDO VARIÁVEIS ======"
+          echo "Workflow: ${{ env.WORKFLOW_VAR }}"
+          echo "Job: ${{ env.JOB_VAR }}"
+          echo "Step: ${{ env.STEP_ESPECIFICO }}"
+          echo "Todos acessíveis no mesmo contexto"
+
+      - name: Usar variáveis em comandos práticos
+        env:
+          NOME_PROJETO: "lab-variaveis"
+          TIMESTAMP: "2026-08-05"
+        run: |
+          echo "=== Exemplo Prático ==="
+          echo "Compilando projeto: ${{ env.NOME_PROJETO }}"
+          echo "Data de build: ${{ env.TIMESTAMP }}"
+          echo "Ambiente de deploy: ${{ env.AMBIENTE }}"
+          echo "Versão: ${{ env.VERSAO_APP }}"
