@@ -32,6 +32,9 @@ jobs:
           echo "Debug Mode: ${{ vars.DEBUG_MODE }}"
           echo "Max Connections: ${{ vars.MAX_CONNECTIONS }}"
 
+      - name: Checkout código
+        uses: actions/checkout@v4
+
       - name: Simular build para DEV
         run: |
           echo "Compilando aplicação para ${{ vars.ENVIRONMENT }}"
